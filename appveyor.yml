@@ -13,7 +13,7 @@ environment:
 install:
     - git submodule update --init
     - appveyor DownloadFile https://win.rustup.rs/ -FileName rustup-init.exe  # Downloads Rustup-init 
-    - rustup-init -yv --default-toolchain %channel% --default-host %host%     # Installs Rust
+    - rustup-init -y --default-toolchain %channel% --default-host %host%      # Installs Rust
     - set PATH=%PATH%;%USERPROFILE%\.cargo\bin;%APPVEYOR_BUILD_FOLDER%        # Adds Rust tools (Cargo, Rustup, etc.) to path
     - rustc -vV                       # Prints Rust version
     - cargo -vV                       # Prints Cargo version
@@ -24,10 +24,10 @@ build_script:
 
 test_script:
     - cargo test --target=%target% --verbose       # Runs tests in "src" and "tests" folders
-#    - cargo bench --target=%target% --verbose      # Runs benchmarks in "src/lib.rs"
+    - cargo bench --target=%target% --verbose      # Runs benchmarks in "src/lib.rs"
 
 artifacts:                          
-    - path: target\$(target)\release\*$(APPVEYOR_PROJECT_NAME)*.*     # Publishes all files from `cargo build/test/bench --release`
+    - path: target\$(target)\release\*.*     # Publishes all files from `cargo build/test/bench --release`
       name: $(APPVEYOR_PROJECT_NAME)-$(platform)                      # Gives it a fancy name
 
 deploy:
